@@ -9,3 +9,7 @@ beforeEach(() => {
 test("assign player with gameboard", () => {
   expect(myBoard.player).toBe("Chelsea");
 });
+
+test("grid exists", () => {
+  expect(myBoard.grid).toBeTruthy();
+});
