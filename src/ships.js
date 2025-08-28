@@ -12,3 +12,5 @@ class Ship {
     return this.hits === this.length;
   }
 }
+
+module.exports = { Ship };
