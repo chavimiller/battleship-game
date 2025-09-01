@@ -1,9 +1,9 @@
 import "./style.css";
 
-import { gameSetUp } from "./dom";
+import { renderGame } from "./dom";
 import { Player } from "./player";
 
-const { formContainer, p1Input, p2Input, submit } = gameSetUp();
+const { formContainer, p1Input, p2Input, submit } = renderGame();
 let player2;
 let player1;
 

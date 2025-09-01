@@ -4,7 +4,6 @@ class Gameboard {
   constructor() {
     this.grid = this.createGrid();
     this.ships = []; // To store x amount of ships placed in default positions, with coordinates to be reassigned later
-    this.missedAttacks = [];
   }
 
   createGrid() {
@@ -29,6 +28,7 @@ class Gameboard {
 
   placeShips(x, y, length, axis, name) {
     const ship = new Ship(length, name);
+    this.ships.push(ship);
     const coords = [];
 
     for (let c = 0; c < ship.length; c++) {
@@ -44,8 +44,21 @@ class Gameboard {
     coords.forEach(([a, b]) => (this.grid[a][b] = ship.name));
   }
 
+  allShipsSunk() {
+    return this.ships.every((ship) => ship.isSunk());
+  }
+
   receiveAttack(x, y) {
-    return;
+    if (this.grid[x][y] === "miss") {
+      throw new Error("You have already attempted these coordinates");
+    }
+    if (this.grid[x][y] === null) {
+      this.grid[x][y] = "miss";
+    } else {
+      const ship = this.ships.find((s) => s.name === this.grid[x][y]);
+      ship.hit();
+      this.grid[x][y] = "hit";
+    }
   }
 }
 

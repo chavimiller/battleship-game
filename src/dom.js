@@ -1,4 +1,4 @@
-export function gameSetUp() {
+export function renderGame() {
   const mainContainer = document.querySelector("#main-container");
 
   const formContainer = document.createElement("div");
