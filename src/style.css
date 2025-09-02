@@ -24,6 +24,12 @@
 
 }
 
+#board-container {
+    border: solid salmon 2px;
+    width: 500px;
+    height: 500px;
+}
+
 input {
     border: 2px solid salmon;
     border-radius: 10px;
