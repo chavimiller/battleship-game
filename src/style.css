@@ -24,12 +24,6 @@
 
 }
 
-#board-container {
-    border: solid salmon 2px;
-    width: 500px;
-    height: 500px;
-}
-
 input {
     border: 2px solid salmon;
     border-radius: 10px;
@@ -54,7 +48,101 @@ button {
     cursor: pointer;
 }
 
+#board-container {
+    border: dotted salmon 1px;
+    width: 1200px;
+    height: 800px;
+    display: flex;
+    align-items: start;
+    padding-top: 20px;
+    justify-content: space-evenly;   
+}
 
+.board {
+    width: 500px;
+    height: 500px;
+    border: solid salmon 2px;
+    display: flex;
+    flex-direction: column;
+}
 
+.board-opp {
+    width: 500px;
+    height: 500px;
+    border: solid rgb(223, 223, 223) 2px;
+    display: flex;
+    flex-direction: column;
+}
 
+.row {
+    display: flex;
+    flex: 1;
+}
 
+.square {
+    border: solid salmon 1px;
+    flex: 1;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all;
+}
+
+.square-opp {
+    background-color: rgb(223, 223, 223);
+    margin: 2px;
+    cursor: pointer;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+.square:hover, .square:focus {
+    background-color: salmon;
+    transition: background-color 0.3s ease;
+}
+
+.square-opp:hover, .square-opp:focus {
+    background-color: salmon;
+    transition: background-color 0.3s ease;
+}
+
+#board-labels-container {
+    width: 1200px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.board-label {
+    font-size: 30px;
+    text-align: left;
+    padding-bottom: 12px;
+}
+
+.board-frame {
+    display: flex;
+}
+
+.board-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.num-coords {
+    display: flex;
+    font-size: 25px;
+    color: salmon;
+    width: 20px;
+    padding-top: 78px;
+    padding-right: 18px;
+    line-height: 2.01;
+    text-align: right;
+}
+
+.letter-coords {
+    font-size: 25px;
+    color: salmon; 
+    padding-bottom: 2px;
+    padding-left: 18px;
+    letter-spacing: 10px;
+}
