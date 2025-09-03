@@ -47,7 +47,7 @@ class Gameboard {
   allShipsSunk() {
     return this.ships.every((ship) => ship.isSunk());
   }
-
+  // Check receiveAttack coordinates to be valid & make custom throw error?
   receiveAttack(x, y) {
     if (this.grid[x][y] === "miss") {
       throw new Error("You have already attempted these coordinates");

@@ -14,7 +14,17 @@ let player2;
 let player1;
 let currentPlayer;
 let nextPlayer;
-let currentPlayerBoard = document.createElement("div");
+
+let boardsContainer = document.createElement("div");
+boardsContainer.id = "board-container";
+
+let shipChoices = [
+  { dx: 4, dy: 6, length: 5, axis: "Y", name: "carrier" },
+  { dx: 2, dy: 1, length: 4, axis: "X", name: "battleship" },
+  { dx: 6, dy: 0, length: 3, axis: "Y", name: "cruiser" },
+  { dx: 2, dy: 6, length: 3, axis: "X", name: "submarine" },
+  { dx: 0, dy: 4, length: 2, axis: "X", name: "destroyer" },
+];
 
 export function renderGame() {
   formContainer.id = "form-container";
@@ -32,10 +42,7 @@ export function renderGame() {
 }
 
 export function renderBoards(player1, player2) {
-  const boardsContainer = document.createElement("div");
-  boardsContainer.id = "board-container";
-
-  const boardLabels = document.createElement("div");
+  let boardLabels = document.createElement("div");
   boardLabels.id = "board-labels-container";
 
   const yourBoard = document.createElement("div");
@@ -47,8 +54,6 @@ export function renderBoards(player1, player2) {
   oppsBoard.textContent = `Opponent's board (${nextPlayer.name})`;
 
   mainContainer.appendChild(boardLabels);
-
-  mainContainer.appendChild(boardsContainer);
 
   function renderBoard(p, type = "self") {
     const boardFrame = document.createElement("div");
@@ -84,12 +89,44 @@ export function renderBoards(player1, player2) {
         colIndex++
       ) {
         const square = document.createElement("div");
-        square.classList.add(type === "self" ? "square" : "square-opp");
+        const cell = p.gameboard.grid[rowIndex][colIndex];
+        square.classList.add("square");
+
+        if (cell === "miss") {
+          square.classList.add("square-miss");
+        } else if (cell === "hit") {
+          square.classList.add("square-hit");
+        } else if (cell !== null && type === "self") {
+          square.classList.add("square-ship");
+        }
 
         square.dataset.row = rowIndex;
         square.dataset.col = colIndex;
 
         rowContainer.appendChild(square);
+
+        if (type === "opp") {
+          square.addEventListener("click", () => {
+            try {
+              nextPlayer.gameboard.receiveAttack(rowIndex, colIndex);
+
+              const newCell = nextPlayer.gameboard.grid[rowIndex][colIndex];
+
+              if (newCell === "hit") square.classList.add("square-hit");
+              if (newCell === "miss") square.classList.add("square-miss");
+
+              boardsContainer.style.pointerEvents = "none";
+              setTimeout(() => {
+                switchTurns();
+                boardsContainer.innerHTML = "";
+                renderBoards(currentPlayer, nextPlayer);
+                boardsContainer.style.pointerEvents = "auto";
+              }, 1000);
+            } catch (error) {
+              alert(error.message);
+            }
+          });
+        }
       }
     }
     column.appendChild(boardLabel);
@@ -100,8 +137,8 @@ export function renderBoards(player1, player2) {
     boardsContainer.appendChild(boardFrame);
   }
 
-  renderBoard(player1, "self");
-  renderBoard(player2, "opp");
+  renderBoard(currentPlayer, "self");
+  renderBoard(nextPlayer, "opp");
 }
 
 submit.addEventListener("click", (e) => {
@@ -118,9 +155,35 @@ submit.addEventListener("click", (e) => {
   nextPlayer = player2;
 
   formContainer.remove();
-
+  shipChoices.forEach((ship) => {
+    player1.gameboard.placeShips(
+      ship.dx,
+      ship.dy,
+      ship.length,
+      ship.axis,
+      ship.name
+    );
+    player2.gameboard.placeShips(
+      ship.dx,
+      ship.dy,
+      ship.length,
+      ship.axis,
+      ship.name
+    );
+  });
+  mainContainer.appendChild(boardsContainer);
   renderBoards(currentPlayer, nextPlayer);
 });
+
+//square.addEventListener("click", () = {
+//
+// switchTurns()
+//})
+function switchTurns() {
+  let change = currentPlayer;
+  currentPlayer = nextPlayer;
+  nextPlayer = change;
+}
 
 renderGame();
 

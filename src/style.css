@@ -61,7 +61,8 @@ button {
 .board {
     width: 500px;
     height: 500px;
-    border: solid salmon 2px;
+    border: solid salmon 3px;
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
 }
@@ -80,19 +81,27 @@ button {
 }
 
 .square {
-    border: solid salmon 1px;
+    background-color: rgb(223, 223, 223);
+    margin: 2px;
     flex: 1;
     box-sizing: border-box;
     cursor: pointer;
     transition: all;
 }
 
-.square-opp {
-    background-color: rgb(223, 223, 223);
-    margin: 2px;
-    cursor: pointer;
-    flex: 1;
-    box-sizing: border-box;
+
+.square-hit {
+    background-color: rgb(224, 91, 91);
+    transition: background-color 0.3s ease;
+}
+
+.square-miss {
+    background-color: rgb(247, 247, 160);
+    transition: background-color 0.3s ease;
+}
+
+.square-ship {
+    background-color: rgb(107, 187, 240);
 }
 
 .square:hover, .square:focus {
