@@ -5,8 +5,9 @@
 }
 
 .title {
-    font-size: 30px;
-    padding: 40px 20px 20px 300px;
+    font-size: 60px;
+    padding: 10px;
+    text-align: center;
 }
 
 #main-container {
@@ -51,10 +52,10 @@ button {
 #board-container {
     border: dotted salmon 1px;
     width: 1200px;
-    height: 800px;
+    height: 600px;
     display: flex;
     align-items: start;
-    padding-top: 20px;
+    padding-top: 0px;
     justify-content: space-evenly;   
 }
 
@@ -105,13 +106,8 @@ button {
 }
 
 .square:hover, .square:focus {
-    background-color: salmon;
-    transition: background-color 0.3s ease;
-}
-
-.square-opp:hover, .square-opp:focus {
-    background-color: salmon;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px gray;
+    transition: box-shadow 0.1s ease;
 }
 
 #board-labels-container {
@@ -154,4 +150,24 @@ button {
     padding-bottom: 2px;
     padding-left: 18px;
     letter-spacing: 10px;
+}
+
+.winner-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.winner-message {
+    font-size: 60px;
+    text-align: center;
+    color: salmon;
+    padding: 100px 100px;
+}
+
+#sunken-ships-container {
+    display: flex;
+    border: solid black 1px;
+    width: 1200px;
+    height: 100px;
 }

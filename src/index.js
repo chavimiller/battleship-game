@@ -1,10 +1,8 @@
 import "./style.css";
 import { Player } from "./player";
-import { Gameboard } from "./gameboard";
 
 const mainContainer = document.querySelector("#main-container");
 const formContainer = document.createElement("div");
-const boardArea = document.createElement("div");
 
 const p1Input = document.createElement("input");
 const p2Input = document.createElement("input");
@@ -17,6 +15,9 @@ let nextPlayer;
 
 let boardsContainer = document.createElement("div");
 boardsContainer.id = "board-container";
+
+let sunkenShipContainer = document.createElement("div");
+sunkenShipContainer.id = "sunken-ships-container";
 
 let shipChoices = [
   { dx: 4, dy: 6, length: 5, axis: "Y", name: "carrier" },
@@ -116,12 +117,33 @@ export function renderBoards(player1, player2) {
               if (newCell === "miss") square.classList.add("square-miss");
 
               boardsContainer.style.pointerEvents = "none";
+
               setTimeout(() => {
-                switchTurns();
                 boardsContainer.innerHTML = "";
-                renderBoards(currentPlayer, nextPlayer);
-                boardsContainer.style.pointerEvents = "auto";
-              }, 1000);
+                if (nextPlayer.gameboard.allShipsSunk()) {
+                  const winnerFrame = document.createElement("div");
+                  winnerFrame.classList.add("winner-frame");
+
+                  const winner = document.createElement("div");
+                  winner.classList.add("winner-message");
+                  winner.textContent = `${currentPlayer.name} sunk all of ${nextPlayer.name}'s ships - ${currentPlayer.name} wins!`;
+
+                  const restart = document.createElement("button");
+                  restart.textContent = "Restart";
+
+                  restart.addEventListener("click", (e) => {
+                    window.location.reload();
+                  });
+
+                  boardsContainer.appendChild(winnerFrame);
+                  winnerFrame.appendChild(winner);
+                  winnerFrame.appendChild(restart);
+                } else {
+                  switchTurns();
+                  renderBoards(currentPlayer, nextPlayer);
+                  boardsContainer.style.pointerEvents = "auto";
+                }
+              }, 500);
             } catch (error) {
               alert(error.message);
             }
@@ -175,10 +197,13 @@ submit.addEventListener("click", (e) => {
   renderBoards(currentPlayer, nextPlayer);
 });
 
-//square.addEventListener("click", () = {
-//
-// switchTurns()
-//})
+function displaySunkShips(player) {
+  for (ship of player.gameboard.ships) {
+    if (ship.isSunk()) {
+    }
+  }
+}
+
 function switchTurns() {
   let change = currentPlayer;
   currentPlayer = nextPlayer;
