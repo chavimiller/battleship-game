@@ -16,6 +16,9 @@ let nextPlayer;
 let boardsContainer = document.createElement("div");
 boardsContainer.id = "board-container";
 
+let newContainer = document.createElement("div");
+newContainer.id = "new-container";
+
 let sunkenShipContainer = document.createElement("div");
 sunkenShipContainer.id = "sunken-ships-container";
 
@@ -42,7 +45,28 @@ export function renderGame() {
   formContainer.appendChild(submit);
 }
 
+function renderSunkShips(player) {
+  const listContainer = document.createElement("div");
+  listContainer.classList.add("list-container");
+
+  const playerLabel = document.createElement("div");
+  playerLabel.textContent = `${player.name}'s sunken ships:`;
+  listContainer.appendChild(playerLabel);
+
+  for (let ship of player.gameboard.ships) {
+    if (ship.isSunk()) {
+      const shipSunk = document.createElement("div");
+      shipSunk.classList.add("ship-text");
+      shipSunk.textContent = ship.name;
+      listContainer.appendChild(shipSunk);
+    }
+  }
+  sunkenShipContainer.appendChild(listContainer);
+}
+
 export function renderBoards(player1, player2) {
+  boardsContainer.innerHTML = "";
+  newContainer.innerHTML = "";
   let boardLabels = document.createElement("div");
   boardLabels.id = "board-labels-container";
 
@@ -119,7 +143,6 @@ export function renderBoards(player1, player2) {
               boardsContainer.style.pointerEvents = "none";
 
               setTimeout(() => {
-                boardsContainer.innerHTML = "";
                 if (nextPlayer.gameboard.allShipsSunk()) {
                   const winnerFrame = document.createElement("div");
                   winnerFrame.classList.add("winner-frame");
@@ -131,14 +154,18 @@ export function renderBoards(player1, player2) {
                   const restart = document.createElement("button");
                   restart.textContent = "Restart";
 
-                  restart.addEventListener("click", (e) => {
+                  restart.addEventListener("click", () => {
                     window.location.reload();
                   });
-
+                  boardsContainer.innerHTML = "";
                   boardsContainer.appendChild(winnerFrame);
                   winnerFrame.appendChild(winner);
                   winnerFrame.appendChild(restart);
                 } else {
+                  newContainer.innerHTML = "";
+                  sunkenShipContainer.innerHTML = "";
+                  renderSunkShips(currentPlayer);
+                  renderSunkShips(nextPlayer);
                   switchTurns();
                   renderBoards(currentPlayer, nextPlayer);
                   boardsContainer.style.pointerEvents = "auto";
@@ -156,7 +183,9 @@ export function renderBoards(player1, player2) {
     column.appendChild(board);
     boardFrame.appendChild(oneThruTen);
     boardFrame.appendChild(column);
-    boardsContainer.appendChild(boardFrame);
+    boardsContainer.appendChild(newContainer);
+    newContainer.appendChild(boardFrame);
+    boardsContainer.appendChild(sunkenShipContainer);
   }
 
   renderBoard(currentPlayer, "self");
@@ -196,13 +225,6 @@ submit.addEventListener("click", (e) => {
   mainContainer.appendChild(boardsContainer);
   renderBoards(currentPlayer, nextPlayer);
 });
-
-function displaySunkShips(player) {
-  for (ship of player.gameboard.ships) {
-    if (ship.isSunk()) {
-    }
-  }
-}
 
 function switchTurns() {
   let change = currentPlayer;

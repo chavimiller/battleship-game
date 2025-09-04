@@ -52,11 +52,12 @@ button {
 #board-container {
     border: dotted salmon 1px;
     width: 1200px;
-    height: 600px;
+    height: 800px;
     display: flex;
-    align-items: start;
+    align-items: center;
     padding-top: 0px;
     justify-content: space-evenly;   
+    flex-direction: column;
 }
 
 .board {
@@ -155,6 +156,7 @@ button {
 .winner-frame {
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -165,9 +167,39 @@ button {
     padding: 100px 100px;
 }
 
+#new-container {
+    display: flex;
+    gap: 50px;
+
+}
+
 #sunken-ships-container {
     display: flex;
     border: solid black 1px;
     width: 1200px;
-    height: 100px;
+    height: 200px;
+    flex-direction: row;
+}
+
+.winner-frame > button {
+    padding: 12px;
+    width: 120px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    
+}
+
+.ship-text {
+    text-align: center;
+    text-decoration: line-through;
+    font-size: 20px;
 }
